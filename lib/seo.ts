@@ -4,13 +4,13 @@ import { store } from "@/config/store.config";
 /**
  * Absolute base URL for canonical links and social previews.
  * Set NEXT_PUBLIC_SITE_URL in production (e.g. https://aurstudio.in).
- * On Vercel the production domain is picked up automatically.
+ * Vercel and Netlify both expose their production URL automatically.
  */
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
   (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000");
+    : (process.env.URL ?? process.env.DEPLOY_PRIME_URL ?? "http://localhost:3000"));
 
 export const defaultTitle = `${store.fullName} — ${store.tagline}`;
 
