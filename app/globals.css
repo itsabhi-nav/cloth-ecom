@@ -1,26 +1,72 @@
 @import "tailwindcss";
 
+/* Light-mode palette values are injected per-client from config/store.config.ts
+   by the root layout. These defaults are the fallback only. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --c-bg: #f7f6f2;
+  --c-card: #ffffff;
+  --c-ink: #15130e;
+  --c-soft: #6f6a61;
+  --c-line: #e6e3db;
+  --c-accent: #ae5230;
+}
+
+.dark {
+  --c-bg: #0e0d0b;
+  --c-card: #171613;
+  --c-ink: #f3f1eb;
+  --c-soft: #98938a;
+  --c-line: #27251f;
+  --c-accent: #e07a52;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-bg: var(--c-bg);
+  --color-card: var(--c-card);
+  --color-ink: var(--c-ink);
+  --color-soft: var(--c-soft);
+  --color-line: var(--c-line);
+  --color-accent: var(--c-accent);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-grotesk), var(--font-inter), sans-serif;
+
+  --animate-marquee: marquee 28s linear infinite;
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Easing curve shared by all motion — snappy but soft */
+:root { --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); }
+
+html {
+  scroll-behavior: smooth;
 }
+
+body {
+  background: var(--c-bg);
+  color: var(--c-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--c-ink);
+  color: var(--c-bg);
+}
+
+/* Refined scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--c-bg); }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--c-ink) 22%, var(--c-bg));
+  border-radius: 8px;
+  border: 2px solid var(--c-bg);
+}
+
+/* Hide scrollbars on horizontal strips */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

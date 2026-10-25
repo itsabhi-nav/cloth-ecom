@@ -1,0 +1,27 @@
+"use client";
+
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+type WishlistState = {
+  ids: string[];
+  toggle: (id: string) => void;
+  has: (id: string) => boolean;
+};
+
+export const useWishlist = create<WishlistState>()(
+  persist(
+    (set, get) => ({
+      ids: [],
+      toggle: (id) =>
+        set((s) => ({ ids: s.ids.includes(id) ? s.ids.filter((i) => i !== id) : [...s.ids, id] })),
+      has: (id) => get().ids.includes(id),
+    }),
+    {
+      name: "aur-wishlist",
+      partialize: (s) => ({ ids: s.ids }),
+      // has() must re-run when ids change
+      merge: (persisted, current) => ({ ...current, ...(persisted as Partial<WishlistState>) }),
+    }
+  )
+);
