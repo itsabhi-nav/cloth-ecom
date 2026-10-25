@@ -42,6 +42,7 @@ export const store = {
   shipping: { freeOver: 1499, flat: 99 },
 
   nav: [
+    { label: "Home", href: "/" },
     { label: "Shop All", href: "/shop" },
     { label: "Women", href: "/category/women" },
     { label: "Men", href: "/category/men" },

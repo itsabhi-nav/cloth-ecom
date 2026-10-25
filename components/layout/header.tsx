@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Heart, Menu, ShoppingBag, Sparkles, User, X } from "lucide-react";
 import { store } from "@/config/store.config";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/brand/logo";
 import { cartCount, useCart } from "@/lib/store/cart";
 
 /* Announcement bar: single line, config-driven */
@@ -14,9 +15,9 @@ function AnnouncementBar() {
   if (!store.features.announcement) return null;
   return (
     <div className="bg-ink text-bg">
-      <div className="mx-auto flex h-9 max-w-7xl items-center justify-center gap-2 px-4 text-[12.5px] tracking-wide">
-        <Sparkles className="size-3.5 opacity-80" aria-hidden />
-        <p>{store.announcement}</p>
+      <div className="mx-auto flex h-9 max-w-7xl items-center justify-center gap-2 overflow-hidden px-4 text-[12.5px] tracking-wide">
+        <Sparkles className="size-3.5 shrink-0 opacity-80" aria-hidden />
+        <p className="min-w-0 truncate">{store.announcement}</p>
       </div>
     </div>
   );
@@ -61,22 +62,31 @@ export function Header() {
           </button>
 
           {/* Logo */}
-          <Link href="/" className="font-display text-[22px] font-bold tracking-[0.18em]">
-            {store.name}
+          <Link href="/" className="shrink-0">
+            <Logo />
           </Link>
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-8 lg:flex">
-            {store.nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="group relative text-[14px] font-medium text-ink/80 transition-colors hover:text-ink"
-              >
-                {item.label}
-                <span className="absolute -bottom-1 left-0 h-px w-0 bg-ink transition-all duration-300 ease-[var(--ease-out-expo)] group-hover:w-full" />
-              </Link>
-            ))}
+            {store.nav.map((item) => {
+              const active = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className="group relative text-[14px] font-medium text-ink/80 transition-colors hover:text-ink"
+                >
+                  {item.label}
+                  <span
+                    className={cn(
+                      "absolute -bottom-1 left-0 h-px bg-ink transition-all duration-300 ease-[var(--ease-out-expo)] group-hover:w-full",
+                      active ? "w-full" : "w-0"
+                    )}
+                  />
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Actions */}
@@ -131,7 +141,7 @@ export function Header() {
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="mb-8 flex items-center justify-between">
-                <span className="font-display text-xl font-bold tracking-[0.18em]">{store.name}</span>
+                <Logo />
                 <button
                   aria-label="Close menu"
                   onClick={() => setMenuOpen(false)}
@@ -142,7 +152,7 @@ export function Header() {
               </div>
               <p className="text-soft mb-3 text-[10px] font-bold tracking-[0.24em] uppercase">Menu</p>
               <nav className="flex flex-col">
-                {[{ label: "Home", href: "/" }, ...store.nav].map((item, i) => (
+                {store.nav.map((item, i) => (
                   <motion.div
                     key={item.href}
                     initial={{ opacity: 0, x: -16 }}

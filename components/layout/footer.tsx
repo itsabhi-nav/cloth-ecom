@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Mail, ShieldCheck, Truck, Undo2 } from "lucide-react";
 import { store } from "@/config/store.config";
+import { Logo } from "@/components/brand/logo";
 
 const columns = [
   {
@@ -51,8 +52,8 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
         <div className="grid gap-10 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
-            <p className="font-display text-2xl font-bold tracking-[0.18em]">{store.name}</p>
-            <p className="text-soft mt-3 max-w-xs text-sm leading-relaxed">{store.description}</p>
+            <Logo />
+            <p className="text-soft mt-4 max-w-xs text-sm leading-relaxed">{store.description}</p>
             <p className="text-soft mt-6 flex items-center gap-2 text-sm">
               <Mail className="size-4" aria-hidden /> hello@{store.name.toLowerCase()}.store
             </p>

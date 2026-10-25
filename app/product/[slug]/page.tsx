@@ -7,6 +7,7 @@ import { ProductGallery } from "@/components/commerce/product-gallery";
 import { ProductDetail } from "@/components/commerce/product-detail";
 import { ProductCard } from "@/components/commerce/product-card";
 import { Reveal } from "@/components/motion/reveal";
+import { baseOpenGraph, baseTwitter } from "@/lib/seo";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -23,7 +24,16 @@ export async function generateMetadata({
   return {
     title: product.name,
     description: product.short_desc,
-    openGraph: { images: [{ url: product.images[0] }] },
+    alternates: { canonical: `/product/${product.slug}` },
+    openGraph: {
+      ...baseOpenGraph,
+      type: "article",
+      url: `/product/${product.slug}`,
+      title: product.name,
+      description: product.short_desc,
+      images: [{ url: product.images[0], alt: product.name }],
+    },
+    twitter: { ...baseTwitter, title: product.name, description: product.short_desc },
   };
 }
 

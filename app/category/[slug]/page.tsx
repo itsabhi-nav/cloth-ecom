@@ -13,6 +13,7 @@ import { SortSelect } from "@/components/commerce/filter-bar";
 import { Reveal } from "@/components/motion/reveal";
 import { formatMoney } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import { baseOpenGraph } from "@/lib/seo";
 
 export function generateStaticParams() {
   return categories.map((c) => ({ slug: c.slug }));
@@ -29,7 +30,14 @@ export async function generateMetadata({
   return {
     title: `${cat.name} — collection`,
     description: catDescriptions[slug] ?? `${cat.name} collection at ${store.fullName}.`,
-    openGraph: { images: [{ url: cat.image_url }] },
+    alternates: { canonical: `/category/${cat.slug}` },
+    openGraph: {
+      ...baseOpenGraph,
+      url: `/category/${cat.slug}`,
+      title: `${cat.name} — collection`,
+      description: catDescriptions[slug] ?? `${cat.name} collection at ${store.fullName}.`,
+      images: [{ url: cat.image_url, alt: `${cat.name} collection` }],
+    },
   };
 }
 
