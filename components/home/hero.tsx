@@ -5,12 +5,19 @@ import { Reveal } from "@/components/motion/reveal";
 import { homeImages } from "@/lib/data/home";
 
 export function Hero() {
+  const images = [
+    "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2000",
+    "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2000",
+    "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2000",
+    "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2000",
+  ];
+
   return (
     <section className="relative h-[600px] w-full overflow-hidden">
       {/* Auto-sliding background images */}
       <div className="absolute inset-0 z-0">
         <div className="flex h-full w-full animate-scroll-images">
-          {[homeImages.heroMain, homeImages.heroDetail, homeImages.catMen].map((src, i) => (
+          {images.map((src, i) => (
             <div key={i} className="relative h-full w-full shrink-0">
               <Image src={src} alt="Hero background" fill className="object-cover" priority={i === 0} />
               <div className="absolute inset-0 bg-black/40" />

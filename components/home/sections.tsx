@@ -850,40 +850,30 @@ export function Faq() {
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-4 pt-24 sm:px-6 lg:px-8">
-      <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
-        <div>
-          <SectionHeading
-            eyebrow="Answers"
-            title={
-              <>
-                Before you
-                <br />
-                ask.
-              </>
-            }
-            sub="Shipping, sizing, returns, and how we actually make the clothes."
-          />
-          <Reveal delay={0.1}>
-            <Link
-              href="/contact"
-              className="group border-line bg-card hover:border-ink/20 mt-7 inline-flex items-center gap-3 rounded-2xl border p-4 transition-colors"
-            >
-              <span className="bg-accent/10 text-accent grid size-10 shrink-0 place-items-center rounded-full">
-                <Headphones className="size-4" />
-              </span>
-              <span>
-                <span className="block text-[12.5px] font-semibold">Still stuck?</span>
-                <span className="text-soft block text-[11px]">Real humans, replies in ~38 min</span>
-              </span>
-              <ArrowRight className="text-soft ml-2 size-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          </Reveal>
-        </div>
+    <section className="mx-auto max-w-3xl px-4 pt-24 pb-12 sm:px-6 lg:px-8">
+      <div className="text-center mb-12">
+        <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+          Frequently asked questions
+        </h2>
+        <p className="text-soft mt-4 text-base">
+          Shipping, sizing, returns, and how we actually make the clothes.
+        </p>
+      </div>
 
-        <Reveal delay={0.1}>
-          <FaqAccordion items={faqs} />
-        </Reveal>
+      <Reveal delay={0.1}>
+        <FaqAccordion items={faqs} />
+      </Reveal>
+
+      <div className="mt-12 flex justify-center">
+        <Link
+          href="/contact"
+          className="group border-line bg-card hover:border-ink/20 inline-flex items-center gap-3 rounded-full border px-6 py-3 transition-colors"
+        >
+          <span className="text-soft text-[13px] font-semibold">Still stuck?</span>
+          <span className="text-ink text-[13px] font-semibold flex items-center gap-1.5">
+            Contact support <ArrowRight className="size-4" />
+          </span>
+        </Link>
       </div>
 
       <script
