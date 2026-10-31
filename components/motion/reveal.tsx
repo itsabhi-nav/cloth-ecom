@@ -1,9 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { useLayoutEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
-import { cn } from "@/lib/utils";
 
 /**
  * SSR-safe scroll reveal.

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Star } from "lucide-react";
 import { getProduct, getRelated, products } from "@/lib/data/catalog";
-import { ProductGallery } from "@/components/commerce/product-gallery";
 import { ProductDetail } from "@/components/commerce/product-detail";
+import { ProductGallery } from "@/components/commerce/product-gallery";
 import { ProductCard } from "@/components/commerce/product-card";
 import { Reveal } from "@/components/motion/reveal";
 import { baseOpenGraph, baseTwitter } from "@/lib/seo";
@@ -122,8 +122,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <span className="text-ink">{product.name}</span>
       </div>
 
-      <section className="mx-auto max-w-7xl px-4 pt-5 pb-16 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[1fr_460px] lg:gap-14">
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-start">
           <ProductGallery product={product} />
           <ProductDetail product={product} />
         </div>

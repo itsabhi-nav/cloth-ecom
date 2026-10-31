@@ -38,7 +38,7 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => setMenuOpen(false), [pathname]);
+
 
   return (
     <>
@@ -141,7 +141,9 @@ export function Header() {
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="mb-8 flex items-center justify-between">
-                <Logo />
+                <Link href="/" onClick={() => setMenuOpen(false)} aria-label={`${store.name} home`}>
+                  <Logo />
+                </Link>
                 <button
                   aria-label="Close menu"
                   onClick={() => setMenuOpen(false)}
@@ -161,6 +163,7 @@ export function Header() {
                   >
                     <Link
                       href={item.href}
+                      onClick={() => setMenuOpen(false)}
                       className="font-display group flex items-center justify-between border-b border-line py-[18px] text-[26px] font-semibold tracking-tight"
                     >
                       {item.label}

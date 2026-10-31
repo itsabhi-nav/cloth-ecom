@@ -1,11 +1,15 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
-  BadgeCheck, ChevronDown, Heart, Minus, Plus, RotateCcw, ShieldCheck, Star, Truck,
+  ChevronDown,
+  Heart,
+  Minus,
+  Plus,
+  RotateCcw,
+  ShieldCheck,
+  Truck,
 } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { cn, formatMoney } from "@/lib/utils";
@@ -54,113 +58,118 @@ export function ProductDetail({ product }: { product: Product }) {
   ];
 
   return (
-    <div>
-      {/* Price meta — shares identity for the mobile sticky bar */}
+    <div className="w-full flex flex-col space-y-8">
       {/* Title block */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <div className="flex flex-wrap items-center gap-2">
-            {product.badge === "NEW" && <span className="bg-ink text-bg rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wider">NEW IN</span>}
-            {discount > 0 && <span className="bg-accent rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wider text-white">−{discount}%</span>}
-          </div>
-          <h1 className="font-display mt-3 text-3xl leading-tight font-bold tracking-tight sm:text-4xl">
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-3">
+          <h1 className="font-display text-4xl leading-[1.1] font-bold tracking-tighter text-ink">
             {product.name}
           </h1>
-          {product.rating_count > 0 && (
-            <a href="#reviews" className="text-soft mt-2.5 inline-flex items-center gap-1.5 text-sm hover:underline hover:underline-offset-4">
-              <span className="text-accent flex">
-                {Array.from({ length: Math.round(product.rating_avg) }).map((_, i) => <Star key={i} className="size-3.5 fill-current" />)}
-              </span>
-              {product.rating_avg} · {product.rating_count} reviews
-            </a>
-          )}
+          <div className="flex items-center gap-4 flex-wrap">
+            <span className="font-display text-2xl font-bold text-ink">{formatMoney(product.price)}</span>
+            {product.compare_at_price && (
+              <>
+                <s className="text-soft text-base">{formatMoney(product.compare_at_price)}</s>
+                <span className="bg-accent/10 text-accent text-xs font-semibold px-2.5 py-1 rounded-full">
+                  {discount}% OFF
+                </span>
+              </>
+            )}
+          </div>
         </div>
+
         <button
           aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
           onClick={() => toggleWishlist(product.id)}
           className={cn(
-            "border-line grid size-11 shrink-0 place-items-center rounded-full border bg-card transition-all duration-300",
-            wished ? "text-accent border-accent" : "text-ink/60 hover:border-ink hover:text-ink"
+            "flex items-center gap-3 w-full justify-center h-12 rounded-full border border-line transition-all duration-300 font-semibold text-sm",
+            wished ? "border-accent text-accent" : "text-ink/80 hover:border-ink hover:text-ink"
           )}
         >
           <Heart className={cn("size-4", wished && "fill-accent text-accent")} />
+          {wished ? "Saved to wishlist" : "Save to wishlist"}
         </button>
       </div>
 
-      {/* Price */}
-      <div className="mt-4 flex items-baseline gap-3">
-        <span className="font-display text-2xl font-bold">{formatMoney(product.price)}</span>
-        {product.compare_at_price && <s className="text-soft text-lg">{formatMoney(product.compare_at_price)}</s>}
-        <span className="text-soft text-xs">incl. of all taxes</span>
+      <p className="text-soft text-sm leading-relaxed max-w-lg">{product.short_desc}</p>
+
+      {/* Highlights - IMPROVED */}
+      <div className="grid grid-cols-2 gap-4">
+        {["Premium Fabric", "Cut on bias", "Easy care", "Designed for comfort"].map((item) => (
+          <div key={item} className="flex items-center gap-2 text-xs text-ink font-medium bg-card border border-line rounded-lg p-3">
+             <div className="size-1.5 rounded-full bg-accent" />
+             {item}
+          </div>
+        ))}
       </div>
-      <p className="text-soft mt-3 max-w-md text-[14.5px] leading-relaxed">{product.short_desc}</p>
 
       {/* Size */}
-      <div className="mt-7">
-        <div className="flex items-center justify-between">
-          <p className="font-display text-[13px] font-semibold tracking-wide uppercase">
-            Size · <span className="text-soft normal-case">{variant?.value}</span>
+      <div className="mt-8">
+        <div className="flex justify-between items-center mb-4">
+          <p className="font-display text-[11px] font-bold tracking-widest uppercase text-ink">
+            Select Size
           </p>
-          <button className="text-soft flex items-center gap-1 text-xs underline-offset-4 hover:underline">
-            <BadgeCheck className="size-3.5" aria-hidden /> True to size
-          </button>
+          <p className="text-xs text-soft underline cursor-pointer hover:text-ink">Size Guide</p>
         </div>
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2">
           {product.variants.map((v) => {
             const out = v.stock_qty <= 0;
-            const low = v.stock_qty > 0 && v.stock_qty <= 4;
             return (
               <button
                 key={v.id}
                 disabled={out}
-                onClick={() => { setVariantId(v.id); setQty(1); }}
+                onClick={() => {
+                  setVariantId(v.id);
+                  setQty(1);
+                }}
                 className={cn(
-                  "border-line relative h-11 min-w-[52px] rounded-full border text-sm font-semibold transition-all duration-200",
+                  "border-line h-12 px-6 rounded-full border text-sm font-semibold transition-all duration-200",
                   variantId === v.id ? "bg-ink text-bg border-ink" : "bg-card text-ink hover:border-ink",
-                  out && "cursor-not-allowed border-line text-line line-through hover:border-line",
-                  low && variantId !== v.id && "border-accent/50"
+                  out && "cursor-not-allowed border-line/50 text-line bg-transparent line-through"
                 )}
               >
                 {v.value}
-                {low && <span className="bg-accent absolute -top-1 -right-1 size-2 rounded-full" title="Low stock" />}
               </button>
             );
           })}
         </div>
-        {variant && variant.stock_qty > 0 && variant.stock_qty <= 4 && (
-          <p className="text-accent mt-2.5 text-xs font-semibold">
-            Only {variant.stock_qty} left in {variant.value} — sells out fast
-          </p>
-        )}
       </div>
 
-      {/* Qty + Add */}
+      {/* Qty + Add to Cart */}
       {!soldOut && (
-        <div className="mt-6 flex items-center gap-3">
-          <div className="border-line flex h-12 items-center gap-2 rounded-full border bg-card px-2">
-            <button aria-label="Decrease" onClick={() => setQty(Math.max(1, qty - 1))} className="hover:bg-ink/5 grid size-8 place-items-center rounded-full">
-              <Minus className="size-4" />
-            </button>
-            <span className="w-5 text-center text-sm font-bold">{qty}</span>
+        <div className="mt-8">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center border border-line rounded-full overflow-hidden">
+              <button
+                onClick={() => setQty(Math.max(1, qty - 1))}
+                className="px-4 py-2 text-ink hover:bg-line/50 transition-colors"
+                aria-label="Decrease quantity"
+              >
+                <Minus className="size-4" />
+              </button>
+              <span className="w-12 text-center text-sm font-semibold text-ink">{qty}</span>
+              <button
+                onClick={() => setQty(Math.min(maxQty, qty + 1))}
+                className="px-4 py-2 text-ink hover:bg-line/50 transition-colors"
+                aria-label="Increase quantity"
+              >
+                <Plus className="size-4" />
+              </button>
+            </div>
             <button
-              aria-label="Increase"
-              onClick={() => setQty(Math.min(maxQty, qty + 1))}
-              disabled={qty >= maxQty}
-              className="hover:bg-ink/5 grid size-8 place-items-center rounded-full disabled:opacity-40"
+              onClick={buy}
+              className="flex-1 group bg-ink text-bg hover:opacity-90 flex h-14 items-center justify-center gap-2 rounded-full text-base font-bold transition-all duration-300 hover:shadow-lg hover:shadow-ink/10 active:scale-[0.98]"
             >
-              <Plus className="size-4" />
+              Add to bag · {formatMoney(product.price * qty)}
             </button>
           </div>
-          <button
-            onClick={buy}
-            className="group bg-ink text-bg hover:opacity-90 flex h-12 flex-1 items-center justify-center gap-2 rounded-full text-[15px] font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98]"
-          >
-            Add to bag · {formatMoney(product.price * qty)}
-          </button>
         </div>
       )}
       {soldOut && (
-        <button disabled className="bg-line text-soft mt-6 h-12 w-full rounded-full text-[15px] font-semibold">
+        <button
+          disabled
+          className="bg-line text-soft mt-6 h-12 w-full rounded-full text-[15px] font-semibold"
+        >
           Sold out — restock notification coming
         </button>
       )}
@@ -175,7 +184,7 @@ export function ProductDetail({ product }: { product: Product }) {
         ))}
       </div>
 
-      {/* Accordions */}
+      {/* Product Details Accordions */}
       <div className="border-line mt-8 border-t">
         {detailBlocks.map((b) => (
           <details key={b.title} className="group border-line border-b">
@@ -191,6 +200,25 @@ export function ProductDetail({ product }: { product: Product }) {
         ))}
       </div>
 
+      {/* Highlight Section */}
+      <div className="bg-card rounded-2xl p-6 border border-line">
+        <h4 className="font-display text-sm font-bold uppercase tracking-widest text-ink">Why you'll love it</h4>
+        <ul className="mt-4 space-y-3 text-sm text-soft list-disc list-inside">
+          <li>Designed for comfort and longevity</li>
+          <li>Versatile style that pairs with anything</li>
+          <li>Ethically sourced and premium finish</li>
+          <li>Easy-care fabric that retains shape</li>
+        </ul>
+      </div>
+
+      {/* Full Description */}
+      <div className="mt-8 border-line border-t pt-8">
+        <h3 className="font-display text-lg font-semibold">Description</h3>
+        <div className="mt-4 text-soft text-sm leading-relaxed prose prose-sm max-w-none">
+          <p>{product.short_desc}</p>
+        </div>
+      </div>
+
       {/* Mobile sticky bar */}
       <AnimatePresence>
         {!soldOut && (
@@ -199,7 +227,7 @@ export function ProductDetail({ product }: { product: Product }) {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 80, opacity: 0 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-            className="border-line fixed inset-x-0 bottom-0 z-30 border-t bg-bg/85 px-4 py-3 backdrop-blur-xl lg:hidden"
+            className="border-line fixed inset-x-0 bottom-0 z-30 border-t bg-bg/90 px-4 py-3 backdrop-blur-xl lg:hidden"
           >
             <div className="flex items-center gap-3">
               <div className="min-w-0 flex-1">
