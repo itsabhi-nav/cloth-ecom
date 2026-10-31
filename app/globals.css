@@ -54,9 +54,10 @@
     to { transform: translateX(120%); }
   }
   @keyframes scroll-images {
-    0%, 25% { transform: translateX(0); }
-    33.33%, 58.33% { transform: translateX(-100%); }
-    66.66%, 91.66% { transform: translateX(-200%); }
+    0%, 20% { transform: translateX(0); }
+    25%, 45% { transform: translateX(-25%); }
+    50%, 70% { transform: translateX(-50%); }
+    75%, 95% { transform: translateX(-75%); }
     100% { transform: translateX(0); }
   }
 }
@@ -138,12 +139,6 @@ body {
 
 /* Slightly larger type for the display face on huge headlines */
 .font-display { font-feature-settings: "ss01" on, "ss02" on; }
-
-/* Hero auto-scroll for background images */
-.animate-scroll-images {
-  animation: scroll-images 18s ease-in-out infinite;
-  will-change: transform;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,

@@ -64,28 +64,24 @@ const trustItems = [
   { icon: BadgeIndianRupee, title: "COD available", sub: "Pay when it arrives" },
   { icon: Undo2, title: "7-day easy returns", sub: "Free pickup, no forms" },
   { icon: ShieldCheck, title: "Secure payments", sub: "UPI · Cards · Netbanking" },
-  { icon: Headphones, title: "Real human support", sub: "Avg. reply 38 minutes" },
 ];
 
 export function TrustStrip() {
   return (
-    <div className="relative z-20 mx-auto -mt-6 max-w-7xl px-4 sm:px-6 lg:-mt-12 lg:px-8">
+    <div className="relative z-20 mx-auto -mt-8 max-w-6xl px-4 sm:px-6 lg:-mt-16 lg:px-8">
       <Reveal y={12}>
-        <div className="bg-line border-line grid grid-cols-2 gap-px overflow-hidden rounded-2xl border shadow-[0_24px_60px_-32px_rgba(0,0,0,0.35)] lg:grid-cols-5">
-          {trustItems.map((item, i) => (
+        <div className="bg-line border-line grid grid-cols-2 gap-px overflow-hidden rounded-2xl border shadow-lg lg:grid-cols-4">
+          {trustItems.map((item) => (
             <div
               key={item.title}
-              className={cn(
-                "bg-card flex items-center gap-3 px-4 py-4 sm:px-5",
-                i === trustItems.length - 1 && "col-span-2 lg:col-span-1"
-              )}
+              className="bg-card flex items-center gap-3 px-5 py-5 sm:px-6 sm:py-6"
             >
-              <span className="bg-accent/10 text-accent grid size-9 shrink-0 place-items-center rounded-full">
-                <item.icon className="size-4" aria-hidden />
+              <span className="bg-accent/10 text-accent grid size-10 shrink-0 place-items-center rounded-full">
+                <item.icon className="size-5" aria-hidden />
               </span>
               <span className="min-w-0">
-                <span className="block truncate text-[12.5px] font-semibold">{item.title}</span>
-                <span className="text-soft block truncate text-[10.5px]">{item.sub}</span>
+                <span className="block text-[13px] font-bold text-ink">{item.title}</span>
+                <span className="text-soft block text-[11px] leading-tight">{item.sub}</span>
               </span>
             </div>
           ))}
@@ -104,23 +100,22 @@ const marqueeItems = [
   "7-day easy returns",
   "300-piece limited runs",
   "Premium organic fabrics",
-  "Real human support",
   "Repairs for a full year",
 ];
 
 export function Marquee() {
   return (
-    <div className="bg-ink text-bg relative mt-12 overflow-hidden py-3.5 lg:mt-16">
+    <div className="bg-ink text-bg relative mt-10 overflow-hidden py-4 lg:mt-14">
       <div className="animate-marquee hover:[animation-play-state:paused] flex w-max items-center">
         {[0, 1].map((half) => (
           <div key={half} className="flex items-center" aria-hidden={half === 1}>
             {[...marqueeItems, ...marqueeItems].map((item, i) => (
               <span
                 key={`${half}-${i}`}
-                className="flex items-center px-6 text-[12px] font-semibold tracking-[0.16em] whitespace-nowrap uppercase"
+                className="flex items-center px-8 text-[13px] font-medium tracking-[0.1em] whitespace-nowrap uppercase opacity-90"
               >
                 {item}
-                <span className="bg-accent ml-5 size-1.5 rotate-45 rounded-[2px]" />
+                <span className="bg-accent ml-6 size-1.5 rotate-45 rounded-[1px]" />
               </span>
             ))}
           </div>

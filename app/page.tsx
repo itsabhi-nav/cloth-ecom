@@ -9,6 +9,7 @@ import {
   Newsletter,
   Reviews,
   StatsBand,
+  TrustStrip,
   VideoShowcase,
 } from "@/components/home/sections";
 import { Hero } from "@/components/home/hero";
@@ -18,6 +19,7 @@ export default function HomePage() {
     <>
       {/* 1 — first impression */}
       <Hero />
+      <TrustStrip />
       <Marquee />
 
       {/* 2 — navigation + newness */}
