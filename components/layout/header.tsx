@@ -94,9 +94,14 @@ export function Header() {
             <button aria-label="Account" className="hidden size-10 place-items-center rounded-full hover:bg-ink/5 sm:grid">
               <User className="size-[18px]" />
             </button>
-            <button aria-label="Wishlist" className="hidden size-10 place-items-center rounded-full hover:bg-ink/5 sm:grid">
+            <Link
+              href="/wishlist"
+              aria-label="Wishlist"
+              aria-current={pathname === "/wishlist" ? "page" : undefined}
+              className="hidden size-10 place-items-center rounded-full hover:bg-ink/5 sm:grid"
+            >
               <Heart className="size-[18px]" />
-            </button>
+            </Link>
             <button
               aria-label={`Cart, ${count} items`}
               onClick={() => setDrawer(true)}
@@ -173,6 +178,21 @@ export function Header() {
                     </Link>
                   </motion.div>
                 ))}
+                <motion.div
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 * store.nav.length }}
+                >
+                  <Link
+                    href="/wishlist"
+                    onClick={() => setMenuOpen(false)}
+                    aria-current={pathname === "/wishlist" ? "page" : undefined}
+                    className="font-display group flex items-center justify-between border-b border-line py-[18px] text-[26px] font-semibold tracking-tight"
+                  >
+                    Wishlist
+                    <Heart className="text-accent size-5" aria-hidden />
+                  </Link>
+                </motion.div>
               </nav>
               <div className="text-soft mt-auto pb-2">
                 <p className="text-sm leading-relaxed">{store.tagline}</p>
